@@ -25,6 +25,9 @@ install_dev_tools() {
     systemctl enable docker
     curl -fsSL https://tailscale.com/install.sh | sh
     dnf install flatpak-builder -y
+    dnf install dnf5-plugins -y
+    dnf config-manager addrepo --from-repofile=https://cli.github.com/packages/rpm/gh-cli.repo
+    dnf install gh --repo gh-cli -y
 }
 
 configure_fish() {
@@ -49,6 +52,7 @@ install_flatpaks() {
     flatpak install --system -y org.signal.Signal
     flatpak install --system -y com.discordapp.Discord
     flatpak install --system -y com.bitwarden.desktop
+    flatpak install --system -y me.proton.Mail
 }
 
 install_games() {
@@ -57,8 +61,14 @@ install_games() {
     dnf install lutris -y
 }
 
+install_misc() {
+    echo "Installing miscellaneous applications..."
+    dnf install mpv -y
+    dnf install obs-studio -y
+}
+
 ensure_root "$@"
+install_flatpaks
 install_toolchains
 install_dev_tools
 configure_fish
-install_flatpaks
