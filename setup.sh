@@ -28,10 +28,13 @@ install_dev_tools() {
     dnf install dnf5-plugins -y
     dnf config-manager addrepo --from-repofile=https://cli.github.com/packages/rpm/gh-cli.repo
     dnf install gh --repo gh-cli -y
+     
+    HTTPTOOLKIT_RPM_URL=$(curl -s https://api.github.com/repos/httptoolkit/httptoolkit-desktop/releases/latest | grep "browser_download_url.*\.rpm" | cut -d '"' -f 4 | grep x64)
+    dnf install "$HTTPTOOLKIT_RPM_URL" -y
 }
 
 configure_fish() {
-    echo "Configuring fish shell..."
+    echo "Configuring fish shell..."ao
     mkdir -p ~/.config/fish
     cat > ~/.config/fish/config.fish << 'EOF'
 if status is-interactive
